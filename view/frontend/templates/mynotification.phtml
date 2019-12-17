@@ -1,0 +1,115 @@
+<script>
+    require(['jquery'], function ($) {
+        $(".read").click(function () {
+            var url = BASE_URL+'notification/notification/markread';
+            var id = $(this).attr('id');
+           $.ajax({
+               url: url,
+               data: {id: id},
+               type: 'POST',
+               success:function (data) {
+                   $("#tr-"+id).removeClass('new');
+                   $("#tr-"+id).addClass('view');
+                   $("#"+id).remove();
+                   $("#count-noti-append").text($("#count-noti-append").text()-1);
+               }
+           });
+           return false;
+        });
+
+        $(".delete").click(function () {
+            var url = BASE_URL+'notification/notification/delete';
+            var id = $(this).attr('id');
+            var type = $(this).parent().attr('class');
+            $.ajax({
+                url: url,
+                data: {id: id, type:type},
+                type: 'POST',
+                success:function (data) {
+                    $("#tr-"+id).remove();
+                    if(type == "notification_received")
+                        $("#count-noti-append").text($("#count-noti-append").text()-1);
+                }
+            });
+            return false;
+        });
+    });
+</script>
+
+<style>
+    .new
+    {
+        background: #f5cbd0;
+    }
+    .view
+    {
+        background: antiquewhite;
+    }
+</style>
+
+<?php $gridrecords = $block->GetNoti(); ?>
+<?php if ($gridrecords && count($gridrecords)): ?>
+    <div class="table-wrapper orders-history">
+        <table class="data table table-order-items history" id="my-orders-table">
+            <caption class="table-caption"><?php echo __('Grid Record') ?></caption>
+            <thead>
+            <tr>
+                <th scope="col"><?= __('Date') ?></th>
+                <th scope="col"><?= __('Short Description') ?></th>
+                <th scope="col"><?= __('Action') ?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            foreach ($gridrecords as $gridrecord): ?>
+                <?php if($gridrecords->getFlag($gridrecord->getEntityId()) == "new") : ?>
+                    <tr class="new" id="tr-<?= $gridrecord->getEntityId() ?>">
+                        <td><?= $gridrecord->getCreatedAt(); ?></td>
+                        <td><?= $gridrecord->getShortDescription() ?></td>
+                        <td>
+                            <span><a target="_blank" href="<?= $gridrecord->getRedirectUrl() ?>"><?= __('View Detail') ?></a>| </span>
+                            <a id="<?= $gridrecord->getEntityId() ?>" class="read" href=""><?= ('Mark as read') ?>|</a>
+                            <span class="notification_received"><a class="delete" id="<?= $gridrecord->getEntityId() ?>" href="#"><?= ('Delete') ?></a></span>
+                        </td>
+                    </tr>
+                <?php elseif($gridrecords->getFlag($gridrecord->getEntityId()) == "view") : ?>
+                    <tr class="view" id="tr-<?= $gridrecord->getEntityId() ?>">
+                        <td><?= $gridrecord->getCreatedAt(); ?></td>
+                        <td><?= $gridrecord->getShortDescription() ?></td>
+                        <td>
+                            <span><a target="_blank" href="<?= $gridrecord->getRedirectUrl() ?>"><?= __('View Detail') ?></a>| </span>
+                            <span class="notification_viewed"><a class="delete" id="<?= $gridrecord->getEntityId() ?>" href="#"><?= ('Delete') ?></a></span>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php if ($block->getPagerHtml()): ?>
+        <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+    <?php endif ?>
+<?php else: ?>
+    <div class="message info empty"><span><?php echo __('No any record.'); ?></span></div>
+<?php endif ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

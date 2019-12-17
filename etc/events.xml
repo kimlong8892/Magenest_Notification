@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+
+    <event name="before_save_notification">
+        <observer name="AddAttributeNotification"
+                  instance="Magenest\Notification\Observer\AddAttributeNotification"/>
+    </event>
+
+    <event name="before_delete_notification">
+        <observer name="DeleteAttributeNotification"
+                  instance="Magenest\Notification\Observer\DeleteAttributeNotification"/>
+    </event>
+
+</config>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <!--     Menu Movie       -->
+        <add id="Magenest_Movie::Notification" title="Notification" module="Magenest_Notification" sortOrder="1"
+             resource="Magento_Backend::Notification"/>
+        <add id="Magenest_Movie::Show" title="Show" module="Magenest_Notification" sortOrder="1"
+             parent="Magenest_Movie::Notification" action="notification/notification/show" resource="Magento_Backend::Notification"/>
+        <!--    End Menu Movie    -->
+    </menu>
+</config>
