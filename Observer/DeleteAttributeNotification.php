@@ -36,23 +36,26 @@ class DeleteAttributeNotification implements ObserverInterface
         {
             $customerId = $customer['entity_id'];
             $customer = $this->customerRepository->getById($customerId);
-
             $data = [];
-
             if(count($customer->getCustomAttribute('notification_received')) != 0)
             {
                 $data = $customer->getCustomAttribute('notification_received')->getValue();
                 $data = $this->serialize->unserialize($data);
+                $dataView = $customer->getCustomAttribute('notification_viewed')->getValue();
+                $dataView = $this->serialize->unserialize($dataView);
                 forEach($dataId as $id)
                 {
                     $key = array_search($id, $data);
                     if($key !== false)
-                    {
                         unset($data[$key]);
-                    }
+                    $keyView = array_search($id, $dataView);
+                    if($keyView !== false)
+                        unset($dataView[$keyView]);
                 }
                 $data = $this->serialize->serialize($data);
-                $customer->setCustomAttribute('notification_received',$data);
+                $dataView = $this->serialize->serialize($dataView);
+                $customer->setCustomAttribute('notification_received',$data)
+                         ->setCustomAttribute('notification_viewed', $dataView);
                 $customer = $this->customerRepository->save($customer);
             }
         }

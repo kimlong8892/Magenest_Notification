@@ -56,7 +56,7 @@ class MyNotification extends Template
         $customer = $this->_customerSession->create();
 
 
-        $t = false;
+        $checkNew = false;
         if(isset($customer->getCustomerData()->getCustomAttributes()['notification_received']))
         {
             $notiNews = $customer->getCustomerData()->getCustomAttribute('notification_received')->getValue();
@@ -65,30 +65,31 @@ class MyNotification extends Template
             forEach($notiNews as $noti)
             {
                 $notiCollection->setFlag($noti, 'new');
+                $checkNew = true;
             }
-            $t = true;
+            if($checkNew)
+            {
+                $notiCollection->addFieldToFilter('entity_id', $notiNews);
+            }
         }
+        $checkView = false;
         if(isset($customer->getCustomerData()->getCustomAttributes()['notification_viewed']))
         {
             $notiViews = $customer->getCustomerData()->getCustomAttribute('notification_viewed')->getValue();
             $notiViews = $this->serialize->unserialize($notiViews);
 
             forEach($notiViews as $noti)
-                $notiCollection->setFlag($noti, 'view');
-            if($t)
             {
-                $a = array_merge($notiNews, $notiViews);
-                $notiCollection->addFieldToFilter('entity_id', $a);
+                $notiCollection->setFlag($noti, 'view');
+                $checkView = true;
             }
-            else
+            if($checkView)
             {
                 $notiCollection->addFieldToFilter('entity_id', $notiViews);
             }
         }
-
-
-
-
+        if(!$checkNew && !$checkView)
+            return;
 
 
 

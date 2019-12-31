@@ -6,7 +6,7 @@
         <add id="Magenest_Movie::Notification" title="Notification" module="Magenest_Notification" sortOrder="1"
              resource="Magento_Backend::Notification"/>
         <add id="Magenest_Movie::Show" title="Show" module="Magenest_Notification" sortOrder="1"
-             parent="Magenest_Movie::Notification" action="notification/notification/show" resource="Magento_Backend::Notification"/>
+             parent="Magenest_Movie::Notification" action="notification/notification/show" resource="Magento_Backend::NotificationShow"/>
         <!--    End Menu Movie    -->
     </menu>
 </config>

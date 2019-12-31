@@ -15,11 +15,9 @@
             <block class="Magenest\Notification\Block\MyNotification" name="NotiNew" as="info" template="Magenest_Notification::navbar.phtml" cacheable="false"/>
             <block class="Magento\Customer\Block\Account\SortLinkInterface" name="test-link">
                 <arguments>
-<!--                    <argument name="css_class" xsi:type="string">count</argument>-->
                     <argument name="path" xsi:type="string">notification/notification/show</argument>
                     <argument name="label" xsi:type="string">My Notification</argument>
                     <argument name="sortOrder" xsi:type="number">240</argument>
-
                     <argument name="attributes" xsi:type="array">
                         <item name="id" xsi:type="string">count-notification</item>
                     </argument>
